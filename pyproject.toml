@@ -1,0 +1,19 @@
+[project]
+name = "ai-support-openenv"
+version = "0.1.0"
+description = "AI Customer Support OpenEnv Environment"
+authors = [{ name = "Bani" }]
+requires-python = ">=3.10"
+
+dependencies = [
+    "pydantic",
+    "openai",
+    "openenv>=0.1.13"
+]
+
+[project.scripts]
+server = "app:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
