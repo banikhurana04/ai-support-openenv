@@ -1,15 +1,32 @@
 from fastapi import FastAPI
-from inference import main
+from environment import SupportTicketEnv
+from models import Action
+from inference import main as inference_main
 
 app = FastAPI()
+
+env = SupportTicketEnv()
 
 @app.get("/")
 def home():
     return {"status": "running"}
 
-# This is REQUIRED for hackathon
-def main_entry():
-    main()
+@app.post("/reset")
+def reset():
+    obs = env.reset()
+    return obs.model_dump()
 
-# Hackathon expects this name
-main = main_entry
+@app.post("/step")
+def step(action: dict):
+    act = Action(**action)
+    obs, reward, done, info = env.step(act)
+    return {
+        "observation": obs.model_dump(),
+        "reward": reward.value,
+        "done": done,
+        "info": info
+    }
+
+# Hackathon entry point
+def main():
+    inference_main()
