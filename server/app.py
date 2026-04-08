@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from environment import SupportTicketEnv
 from models import Action
-from inference import main as inference_main
 
 app = FastAPI()
-
 env = SupportTicketEnv()
 
 @app.get("/")
@@ -27,6 +25,10 @@ def step(action: dict):
         "info": info
     }
 
-# Hackathon entry point
+# ✅ Hackathon entry point
 def main():
-    inference_main()
+    obs = env.reset()
+    return obs.model_dump()
+
+if __name__ == "__main__":
+    print(main())
